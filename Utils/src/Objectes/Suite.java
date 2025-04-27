@@ -35,4 +35,9 @@ public class Suite extends Habitacio{
     public void setServeisExtra(String serveisExtra) {
         this.serveisExtra = serveisExtra;
     }
+
+    @Override
+    public String toString(){
+        return "Suite [nom =" + nom + ", nombre de places =" + nombrePlaces + ", serveis extra = " + serveisExtra + "]";
+    }
 }

@@ -5,4 +5,6 @@ public class Factura {
     private Reserva reserva;
     private Servei[] serveis;
 
+
+
 }
