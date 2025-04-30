@@ -83,4 +83,53 @@ public class Hotel {
         }
         return disponible;
     }
+
+    public ArrayList<Habitacio> habitacionsDisponibles(String tipus, LocalDate data, int nombreDies) {
+        ArrayList<Habitacio> resultat = new ArrayList<Habitacio>();
+        int quantitat = 0;
+        for(Habitacio h : habitacions){
+            if (this.habitacioDisponible(h.getNumero(),data, nombreDies)){
+                if (tipus.toUpperCase().equals("DOBLE")){
+                    if (h instanceof HabitacioDoble){ /*instanceof és un operador lògic que compara els tipus d'objecte entre dos objectes diferents)*/
+                        resultat.add(h);
+                    }
+                } else {
+                    if (h instanceof Suite){
+                        resultat.add(h);
+                    }
+                }
+            }
+        }
+        return resultat;
+    }
+
+     public void mostrarHabitacions(){
+         System.out.println("HABITACIONS DEL HOTEL");
+         System.out.println("=====================");
+         System.out.println();
+
+         for(Habitacio h : habitacions) {
+             String tipus = "";
+             if (h instanceof HabitacioDoble){
+                 tipus = "Habitació doble";
+             } else if (h instanceof Suite s){
+                 tipus = "Suite";
+             }
+
+             System.out.println("Habitació Nº " + h.getNumero());
+             System.out.println("Tipus: " + tipus);
+             System.out.println("Preu per nit: %.2f".formatted(h.getPreu())); /*Dins del string %.2f serveix per a després formatejar el string per a que sorti un nombre amb, en aquest cas, 2 decimals. Per això el .2f */
+             System.out.println("Descripció: " + h.getDescripcio());
+
+             if (h instanceof Suite s){
+                 System.out.println("Nombre: " + s.getNom());
+                 System.out.println("Nombre de places: " + s.getNombrePlaces());
+                 System.out.println("Serveis extra: " + s.getServeisExtra());
+             }
+
+             String disponibilidad = (this.habitacioDisponible(h.getNumero(), LocalDate.now(), 1) ? "Si" : "No");
+
+             System.out.println("Disponible avui: " + disponibilidad);
+         }
+     }
 }
