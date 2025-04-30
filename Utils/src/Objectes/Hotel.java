@@ -1,16 +1,20 @@
 package Objectes;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Random;
+import java.util.ArrayList;
 
 public class Hotel {
     private Habitacio[] habitacions;
-    private Reserva[] reserves;
-    private int cantitatReserves;
+    private ArrayList<Reserva> reserves;
+    private int quantitatReserves;
 
     public Hotel() {
         habitacions = new Habitacio[10];
-        reserves = new Reserva[100];
-        cantitatReserves = 0;
+        ArrayList<Reserva> reserves = new ArrayList<Reserva>();
+        quantitatReserves = 0;
         iniciar();
     }
 
@@ -32,5 +36,37 @@ public class Hotel {
             String serveisExtra = "Servei de cocktails, accés a spa";
             habitacions[i+8] = new Suite(nombre, descripcio, nom, places, serveisExtra);
         }
+    }
+
+    /* Aquesta funció només la trucarem quan hagim comprobat abans que hi han reserves disponibles*/
+    public Reserva afegirReserva(Client client, Host[] host, LocalDate dataInici, int nombreDies, Habitacio habitacio){
+        Reserva r = new Reserva(dataInici, nombreDies, client, host, habitacio);
+        reserves.add(r);
+        return r;
+    }
+
+    public void mostrarReserva() {
+        System.out.println("RESERVES DEL HOTEL");
+        System.out.println("==================");
+        System.out.println();
+
+        if(quantitatReserves == 0) {
+            System.out.println("L'hotel no disposa encara de reserves");
+        }
+
+        for(int i = 0; i < quantitatReserves; i++){
+            Reserva r = reserves.get(i);
+            System.out.println("RESERVA" + (i+1));
+            System.out.println("-------");
+            System.out.println("Client: " + r.getClient().getNom());
+            System.out.println("DNI: " + r.getClient().getDni());
+            System.out.println("Nº Hosts: " + r.getHost().length + 1);
+            System.out.println("Arribada: " + r.getDataInici().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) );
+            System.out.println("Sortida: " + r.getDataFinal().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) );
+            System.out.println("Nº Dies: " + r.getNombreDies());
+            System.out.println("Import: " + r.getImport());
+            System.out.println();
+        }
+        System.out.println();
     }
 }
