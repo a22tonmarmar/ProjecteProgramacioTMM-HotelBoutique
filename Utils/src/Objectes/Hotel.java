@@ -69,4 +69,18 @@ public class Hotel {
         }
         System.out.println();
     }
+
+    public boolean habitacioDisponible(int numero, LocalDate data, int nombreDies){
+        boolean disponible = true;
+        int i = 0;
+        while(i < quantitatReserves && disponible){
+            Reserva r = reserves.get(i);
+            if (r.getHabitacio().getNumero() == numero){
+                disponible = !UtilData.esSolapa(r.getDataInici(), r.getDataFinal(), data, data.plusDays(nombreDies));
+            }
+            i++;
+
+        }
+        return disponible;
+    }
 }
