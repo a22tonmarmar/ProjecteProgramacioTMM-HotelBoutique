@@ -1,5 +1,6 @@
 package Objectes;
 
+import javax.lang.model.type.ArrayType;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -89,7 +90,7 @@ public class Hotel {
         int quantitat = 0;
         for(Habitacio h : habitacions){
             if (this.habitacioDisponible(h.getNumero(),data, nombreDies)){
-                if (tipus.toUpperCase().equals("DOBLE")){
+                if (tipus.equalsIgnoreCase("doble")){
                     if (h instanceof HabitacioDoble){ /*instanceof és un operador lògic que compara els tipus d'objecte entre dos objectes diferents)*/
                         resultat.add(h);
                     }
@@ -132,4 +133,39 @@ public class Hotel {
              System.out.println("Disponible avui: " + disponibilidad);
          }
      }
+
+     public Reserva afegirReserva(Client client, Host[] host, LocalDate dataInici, int nombreDies, String tipusHabitacio){
+
+        /*Cerquem habitacions disponibles avui*/
+         ArrayList<Habitacio> disponibles = habitacionsDisponibles(tipusHabitacio, dataInici, nombreDies);
+         Reserva r = null;
+
+         if (disponibles.size() > 0){
+             // Es revisa si el nom de host es poden allotjar
+             if (tipusHabitacio.equalsIgnoreCase("doble")) {
+                 if (host.length > 1) {
+                     System.out.println("No es poden allotjar més de dues persones en una habitació doble");
+                     return r;
+                 } else {
+                     r = afegirReserva(client, host, dataInici, nombreDies, disponibles.get(0));
+                 }
+             } else {
+                 // Si es una suite, es revisa si el nom de host es poden allotjar
+                 for (int i = 0; i < disponibles.size() && r == null; i++){
+                     Suite s = (Suite) disponibles.get(i);
+                     if (s.getNombrePlaces() >= host.length + 1) {
+                         r = afegirReserva(client, host, dataInici, nombreDies, s);
+                     }
+                 }
+                 if (r == null){
+                     System.out.println("Ho sentim, però sembla que no hi han suites disponibles amb aquesta capacitat.");
+                 }
+             }
+         } else {
+             System.out.println("Ho sentim, no hi han habitacions disponibles");
+         }
+
+         return r;
+     }
+
 }
