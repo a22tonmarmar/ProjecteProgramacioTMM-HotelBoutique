@@ -1,6 +1,7 @@
 package Objectes;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Reserva {
@@ -8,10 +9,10 @@ public class Reserva {
     private LocalDate dataInici;
     private int nombreDies;
     private Client client;
-    private Host[] host;
+    private ArrayList<Host> host;
     private Habitacio habitacio;
 
-    public Reserva(LocalDate dataInici, int nombreDies, Client client, Host[] host, Habitacio habitacio){
+    public Reserva(LocalDate dataInici, int nombreDies, Client client, ArrayList<Host> host, Habitacio habitacio){
         this.dataInici = dataInici;
         this.nombreDies = nombreDies;
         this.client = client;
@@ -43,11 +44,11 @@ public class Reserva {
         this.client = client;
     }
 
-    public Host[] getHost() {
+    public ArrayList<Host> getHost() {
         return host;
     }
 
-    public void setHost(Host[] host) {
+    public void setHost(ArrayList<Host> host) {
         this.host = host;
     }
 
@@ -69,7 +70,7 @@ public class Reserva {
 
     @Override
     public String toString() {
-        return "Reserva [" + "dataInici=" + dataInici + ", nombreDies=" + nombreDies + ", client=" + client + ", host=" + Arrays.toString(host) + ", habitacio=" + habitacio + ']';
+        return "Reserva [" + "dataInici=" + dataInici + ", nombreDies=" + nombreDies + ", client=" + client + ", host=" + Arrays.toString(host.toArray()) + ", habitacio=" + habitacio + ']';
     }
 }
 
