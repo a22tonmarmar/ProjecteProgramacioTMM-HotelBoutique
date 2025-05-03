@@ -14,7 +14,7 @@ public class Hotel {
 
     public Hotel() {
         habitacions = new Habitacio[10];
-        ArrayList<Reserva> reserves = new ArrayList<Reserva>();
+        reserves = new ArrayList<Reserva>();
         quantitatReserves = 0;
         iniciar();
     }
@@ -40,9 +40,10 @@ public class Hotel {
     }
 
     /* Aquesta funció només la trucarem quan hagim comprobat abans que hi han reserves disponibles*/
-    public Reserva afegirReserva(Client client, Host[] host, LocalDate dataInici, int nombreDies, Habitacio habitacio){
+    public Reserva afegirReserva(Client client, ArrayList<Host> host, LocalDate dataInici, int nombreDies, Habitacio habitacio){
         Reserva r = new Reserva(dataInici, nombreDies, client, host, habitacio);
         reserves.add(r);
+        quantitatReserves ++;
         return r;
     }
 
@@ -61,7 +62,7 @@ public class Hotel {
             System.out.println("-------");
             System.out.println("Client: " + r.getClient().getNom());
             System.out.println("DNI: " + r.getClient().getDni());
-            System.out.println("Nº Hosts: " + r.getHost().length + 1);
+            System.out.println("Nº Hosts: " + r.getHost().size());
             System.out.println("Arribada: " + r.getDataInici().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) );
             System.out.println("Sortida: " + r.getDataFinal().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) );
             System.out.println("Nº Dies: " + r.getNombreDies());
@@ -105,6 +106,7 @@ public class Hotel {
     }
 
      public void mostrarHabitacions(){
+         System.out.println();
          System.out.println("HABITACIONS DEL HOTEL");
          System.out.println("=====================");
          System.out.println();
@@ -130,20 +132,22 @@ public class Hotel {
 
              String disponibilidad = (this.habitacioDisponible(h.getNumero(), LocalDate.now(), 1) ? "Si" : "No");
 
+             System.out.println();
              System.out.println("Disponible avui: " + disponibilidad);
+             System.out.println();
          }
      }
 
-     public Reserva afegirReserva(Client client, Host[] host, LocalDate dataInici, int nombreDies, String tipusHabitacio){
+     public Reserva afegirReserva(Client client, ArrayList<Host> host, LocalDate dataInici, int nombreDies, String tipusHabitacio){
 
         /*Cerquem habitacions disponibles avui*/
          ArrayList<Habitacio> disponibles = habitacionsDisponibles(tipusHabitacio, dataInici, nombreDies);
          Reserva r = null;
 
-         if (disponibles.size() > 0){
+         if (!disponibles.isEmpty()){
              // Es revisa si el nom de host es poden allotjar
              if (tipusHabitacio.equalsIgnoreCase("doble")) {
-                 if (host.length > 1) {
+                 if (host.size() > 1) {
                      System.out.println("No es poden allotjar més de dues persones en una habitació doble");
                      return r;
                  } else {
@@ -153,7 +157,7 @@ public class Hotel {
                  // Si es una suite, es revisa si el nom de host es poden allotjar
                  for (int i = 0; i < disponibles.size() && r == null; i++){
                      Suite s = (Suite) disponibles.get(i);
-                     if (s.getNombrePlaces() >= host.length + 1) {
+                     if (s.getNombrePlaces() >= host.size() + 1) {
                          r = afegirReserva(client, host, dataInici, nombreDies, s);
                      }
                  }
@@ -167,5 +171,4 @@ public class Hotel {
 
          return r;
      }
-
 }
