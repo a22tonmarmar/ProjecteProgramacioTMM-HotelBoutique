@@ -23,9 +23,9 @@ Una factura inclou una reserva, el client a qui es factura i opcionalment, altre
 
 # Diagrames
 Diagrames de clases:
-![DiagramaClasses.png](DiagramaClasses.png)
+![DiagramaClasses.png](Utils/Diagrames/DiagramaClasses.png)
 
 Diagrames de Casos d'Ús:
-![DiagramaCasosUs.png](DiagramaCasosUs.png)
+![DiagramaCasosUs.png](Utils/Diagrames/DiagramaCasosUs.png)
 
 
