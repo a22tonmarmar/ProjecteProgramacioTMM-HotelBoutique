@@ -19,6 +19,10 @@ public class Hotel {
         iniciar();
     }
 
+    public ArrayList<Reserva> getReserves() {
+        return reserves;
+    }
+
     private void iniciar(){
         for(int i = 0; i < 8; i++){
             int numero = i + 1;

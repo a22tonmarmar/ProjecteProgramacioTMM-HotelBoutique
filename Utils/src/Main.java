@@ -1,10 +1,13 @@
 import Objectes.*;
+import dao.HotelDAO;
+import dao.bbddDAO;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
+    static HotelDAO hotelDAO = new bbddDAO();
     public static void main(String[] args) {
         Hotel hotel = new Hotel();
         Scanner sc = new Scanner(System.in);
@@ -25,6 +28,7 @@ public class Main {
 
             switch (entrada){
                 case 0:
+                    hotelDAO.pujar(hotel.getReserves());
                     System.out.println("Fins la pròxima");
                     break;
                 case 1:
@@ -47,6 +51,9 @@ public class Main {
                     String tarjetaCredit = sc.nextLine();
                     System.out.println("====================================");
                     Client client = new Client(clientNom, clientDNI, clientEdat, tarjetaCredit);
+
+                    hotelDAO.pujar(client);
+
                     System.out.println("Client registrat correctament!");
                     System.out.print("Per a quantes persones es la reserva? ");
                     int hosts = sc.nextInt();
@@ -78,7 +85,6 @@ public class Main {
                     sc.nextLine();
                     LocalDate dataInicial = LocalDate.now();
 
-                    //Client client, ArrayList<Host> host, LocalDate dataInici, int nombreDies, String tipusHabitacio
                     hotel.afegirReserva(client, llistaHost, dataInicial, nombreDies, tipusHabitacio);
                     System.out.println("Reserva concretada!");
                     break;
